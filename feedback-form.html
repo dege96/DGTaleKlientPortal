@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boursin Blue - Återkopplingsformulär</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --background: #ffffff;
+            --background-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --border-light: #f3f4f6;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+            color: var(--text-primary);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--background-light);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--background);
+            border-right: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--background-light);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 12px 20px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--background-light);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        .nav-item-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 8px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-toggle-icon {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar.open + .sidebar-overlay {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--background);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--border-light);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: var(--background);
+            color: var(--text-primary);
+            padding: 60px 40px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+
+        .form-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+        }
+
+        .form-header p {
+            font-size: 1.125rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .deadline-warning {
+            background: var(--background-light);
+            color: var(--text-primary);
+            padding: 16px 20px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .deadline-warning::before {
+            content: '⏰';
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .form-content {
+            padding: 40px;
+            background: var(--background);
+        }
+
+        .section {
+            margin-bottom: 32px;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+
+        .section h2 {
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            position: relative;
+            letter-spacing: -0.025em;
+        }
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #34495e;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        /* Question containers */
+        .question-container {
+            background: var(--background);
+            border-radius: var(--radius-md);
+            padding: 0;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-container:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+
+        /* Question header */
+        .question-header {
+            background: var(--background-light);
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+
+        .question-header label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0;
+            line-height: 1.5;
+            display: block;
+            position: relative;
+            letter-spacing: -0.025em;
+        }
+
+
+        /* Question content */
+        .question-content {
+            padding: 24px;
+            background: var(--background);
+        }
+
+        .question-container .form-group {
+            margin-bottom: 15px;
+        }
+
+        .question-container .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .checkbox-item:hover, .radio-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .radio-item input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked,
+        .radio-item input[type="radio"]:checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .radio-item input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .checkbox-item.selected,
+        .radio-item.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+            transform: translateX(5px);
+        }
+
+        .checkbox-item.selected::before, .radio-item.selected::before {
+            left: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .checkbox-item span, .radio-item span {
+            font-size: 1.08rem;
+            color: #2d3748;
+            line-height: 1.5;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .checkbox-item strong, .radio-item strong {
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+
+        .checkbox-item.selected span, .radio-item.selected span {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .cost-display {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(56, 239, 125, 0.15);
+        }
+
+        .cost-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            padding: 2px;
+            background: var(--success-gradient);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+        }
+
+        .cost-range {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .cost-display p {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .notes-field {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.2s ease;
+            background: var(--background);
+        }
+
+        .notes-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .notes-field::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 40;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: -0.025em;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+            border-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: var(--background);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            background: #1f293782;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .summary-content {
+            max-width: 750px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            margin-top: 50px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+            animation: slideUpModal 0.4s ease;
+        }
+
+        @keyframes slideUpModal {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        .summary-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .summary-header h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .summary-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .summary-section h3 {
+            color: #34495e;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .summary-section ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .summary-section li {
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .summary-section li::before {
+            content: '✓';
+            position: absolute;
+            left: -20px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .copy-success {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--success-color);
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            animation: slideInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 500;
+            font-size: 0.875rem;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .copy-success::before {
+            content: '✨';
+            font-size: 1.3rem;
+        }
+
+        @keyframes slideInBounce {
+            from {
+                transform: translateX(120%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 25px 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: #e8ecf1;
+            z-index: -1;
+        }
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .progress-step.completed::after {
+            background: var(--success-gradient);
+        }
+
+        .progress-step.active .step-number {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            animation: pulseStep 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseStep {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .progress-step.completed .step-number {
+            background: var(--success-gradient);
+            color: white;
+            box-shadow: 0 5px 20px rgba(56, 239, 125, 0.3);
+        }
+
+        .progress-step.completed .step-number::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e8ecf1;
+            color: #9ca3af;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-label {
+            font-size: 0.95rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .progress-step.active .step-label,
+        .progress-step.completed .step-label {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        /* Floating indicators */
+        .floating-indicators {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .indicator-item {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .indicator-item:hover {
+            transform: translateX(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .indicator-item::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            padding: 8px 12px;
+            background: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .indicator-item:hover::before {
+            opacity: 1;
+        }
+
+        .indicator-icon {
+            font-size: 1.3rem;
+        }
+
+        .indicator-status {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            background: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            z-index: 1000;
+            animation: fadeInTooltip 0.3s ease;
+        }
+
+        @keyframes fadeInTooltip {
+            from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Enhanced form validation feedback */
+        .form-group.error .notes-field,
+        .form-group.error input {
+            border-color: var(--warning-color);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .form-group .error-message {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            .form-header, .deadline-warning {
+                background: #333 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .action-buttons, .progress-indicator, .floating-indicators {
+                display: none !important;
+            }
+        }
+
+        /* Animation för frågor */
+        .question-container {
+            animation: slideInQuestion 0.6s ease-out;
+        }
+
+        @keyframes slideInQuestion {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation för frågor */
+        .question-container:nth-child(1) { animation-delay: 0.1s; }
+        .question-container:nth-child(2) { animation-delay: 0.2s; }
+        .question-container:nth-child(3) { animation-delay: 0.3s; }
+        .question-container:nth-child(4) { animation-delay: 0.4s; }
+        .question-container:nth-child(5) { animation-delay: 0.5s; }
+        .question-container:nth-child(6) { animation-delay: 0.6s; }
+        .question-container:nth-child(7) { animation-delay: 0.7s; }
+        .question-container:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .form-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .question-container {
+                margin-bottom: 20px;
+            }
+
+            .question-header {
+                padding: 20px 25px 15px;
+            }
+
+            .question-content {
+                padding: 20px 25px 25px;
+            }
+
+            .question-header label {
+                font-size: 1.05rem;
+                padding-left: 20px;
+            }
+
+            .question-header label::before {
+                font-size: 1rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .progress-indicator {
+                display: none;
+            }
+
+            .floating-indicators {
+                bottom: 20px;
+                right: 20px;
+                transform: scale(0.9);
+            }
+
+            .checkbox-item, .radio-item {
+                padding: 15px 20px;
+            }
+
+            .checkbox-item:hover, .radio-item:hover {
+                transform: translateX(5px) scale(1.01);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-content {
+                padding: 20px 15px;
+            }
+
+            .section h2 {
+                font-size: 1.2rem;
+            }
+
+            .btn {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+
+            .floating-indicators {
+                flex-direction: row;
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+            }
+
+            .indicator-item {
+                padding: 8px 12px;
+            }
+
+            .indicator-item::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>Boursin Blue</h1>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Projekt</div>
+                <a href="#komponenter" class="nav-item active" data-section="komponenter">
+                    <span class="nav-item-icon">📦</span>
+                    Komponenter
+                </a>
+                <a href="#kvalitet" class="nav-item" data-section="kvalitet">
+                    <span class="nav-item-icon">⭐</span>
+                    Kvalitet
+                </a>
+                <a href="#design" class="nav-item" data-section="design">
+                    <span class="nav-item-icon">🎨</span>
+                    Design
+                </a>
+                <a href="#transport" class="nav-item" data-section="transport">
+                    <span class="nav-item-icon">🚚</span>
+                    Transport
+                </a>
+                <a href="#kostnad" class="nav-item" data-section="kostnad">
+                    <span class="nav-item-icon">💰</span>
+                    Kostnad
+                </a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Åtgärder</div>
+                <a href="#skicka" class="nav-item" data-section="skicka">
+                    <span class="nav-item-icon">📧</span>
+                    Skicka formulär
+                </a>
+                <a href="#kopiera" class="nav-item" data-section="kopiera">
+                    Kopiera text
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <div class="form-container">
+        <div class="form-header">
+            <h1>Boursin Blue - Återkopplingsformulär</h1>
+        </div>
+        
+        <div class="deadline-warning">
+            Bekräftelse behövs senast 25 september för att säkerställa leverans till eventet 7 november
+        </div>
+
+        <div class="form-content">
+
+            <form id="feedbackForm">
+                <!-- Komponentval -->
+                <div class="section" id="komponenter">
+                    <h2>Välj komponenter för projektet</h2>
+                                        
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Grafisk design</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="graphic_design" value="lyckohjul" checked>
+                                    <span>Lyckohjul</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="graphic_design" value="disk" checked>
+                                    <span>Disk</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="graphic_design" value="bakre_vagg" checked>
+                                    <span>Bakre vägg</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="graphic_design" value="kyl">
+                                    <span>Kyl</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Bygg</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="bakvag" checked>
+                                    <span>Bakvägg (3m x 2m x 0.1m)</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="disk" checked>
+                                    <span>Disk (2m x 1,1m x 1m) - OBS: föreslår max 70cm djup</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="belysning">
+                                    <span>Belysning</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Övrigt</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="other_services" value="montering">
+                                    <span>Montering</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="other_services" value="transport" checked>
+                                    <span>Transport & emballage</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="other_services" value="hyra_vintunna">
+                                    <span>Hyra vintunna</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kvalitetsnivå -->
+                <div class="section" id="kvalitet">
+                    <h2>Välj kvalitetsnivå</h2>
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Vilken kvalitetsnivå föredrar ni för projektet?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="quality" value="budget" checked>
+                                    <span><strong>Budget</strong> - Enklare material och standardlösningar</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="quality" value="standard">
+                                    <span><strong>Standard</strong> - Balanserad kvalitet och pris</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="quality" value="premium">
+                                    <span><strong>Premium</strong> - Högkvalitativa material för autentisk vingårdskänsla</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design och Material -->
+                <div class="section" id="design">
+                    <h2>Design och Material</h2>
+                    
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Ska bakväggen vara en heltäckande print?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="backwall" value="print">
+                                    <span>Heltäckande print</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="backwall" value="other">
+                                    <span>Annat, beskriv:</span>
+                                </label>
+                            </div>
+                            <div class="form-group" id="backwall-other" style="display: none; margin-top: 15px;">
+                                <textarea class="notes-field" name="backwall_other" placeholder="Beskriv din önskade bakväggsdesign här..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Vilken typ av material ska användas för disken?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="material" value="plywood">
+                                    <span>Enklare plywood som målas</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="material" value="robust">
+                                    <span>Robustare material som ser ut som äkta trä</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="material" value="other">
+                                    <span>Annat, beskriv:</span>
+                                </label>
+                            </div>
+                            <div class="form-group" id="material-other" style="display: none; margin-top: 15px;">
+                                <textarea class="notes-field" name="material_other" placeholder="Beskriv önskat material här..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Transport och Montering -->
+                <div class="section" id="transport">
+                    <h2>Transport och Montering</h2>
+                    
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Behöver ni hjälp med transport, montering och demontering av montern?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="services" value="all">
+                                    <span>Ja, allt</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="services" value="transport_setup">
+                                    <span>Endast transport och montering</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="services" value="none">
+                                    <span>Nej, vi löser det själva</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Övriga kommentarer -->
+                <div class="section">
+                    <h2>Övriga kommentarer</h2>
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Finns det något annat du vill lägga till eller förtydliga kring projektet?</label>
+                        </div>
+                        <div class="question-content">
+                            <textarea class="notes-field" name="comments" placeholder="Skriv eventuella kommentarer, frågor eller speciella önskemål här..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estimerad kostnad -->
+                <div class="section" id="kostnad">
+                    <h2>Estimerad total kostnad</h2>
+                    <div class="cost-display">
+                        <div class="cost-range" id="costEstimate">
+                            Välj kvalitetsnivå för att se prisuppskattning
+                        </div>
+                    </div>
+                    <p style="margin-top: 10px; text-align: center; color: #666; font-style: italic;">
+                        Alla priser är exklusive moms. Grafisk design får 10% rabatt på slutfaktura.
+                    </p>
+                </div>
+            </form>
+
+            <div class="action-buttons" id="skicka">
+                <button type="button" class="btn btn-primary" onclick="generateSummary()">
+                     Generera sammanfattning
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="sendEmail()">
+                    Skicka som mail
+                </button>
+                <button type="button" class="btn btn-outline" onclick="copyToClipboard()">
+                    Kopiera text
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sammanfattningsmodal -->
+    <div id="summaryModal" class="summary-modal">
+        <div class="summary-content">
+            <button class="close-modal" onclick="closeSummary()">×</button>
+            <div class="summary-header">
+                <h2>Sammanfattning av dina val</h2>
+                <p>Kontrollera att allt stämmer innan du skickar</p>
+            </div>
+            <div id="summaryText"></div>
+            <div class="action-buttons">
+                <button type="button" class="btn btn-secondary" onclick="sendEmail()">
+                    Skicka som mail
+                </button>
+                <button type="button" class="btn btn-primary" onclick="copyToClipboard()">
+                    Kopiera text
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kopieringsbekräftelse -->
+    <div id="copySuccess" class="copy-success">
+        Text kopierad till urklipp!
+    </div>
+
+    <!-- Floating action indicators -->
+    <div class="floating-indicators">
+        <div class="indicator-item" data-tooltip="Kvalitetsnivå">
+            <span class="indicator-icon">💎</span>
+            <span class="indicator-status" id="qualityIndicator">-</span>
+        </div>
+        <div class="indicator-item" data-tooltip="Estimerad kostnad">
+            <span class="indicator-icon">💰</span>
+            <span class="indicator-status" id="costIndicator">-</span>
+        </div>
+        <div class="indicator-item" data-tooltip="Deadline">
+            <span class="indicator-icon">📅</span>
+            <span class="indicator-status">25 sep</span>
+        </div>
+    </div>
+
+    <script>
+        // Uppdatera vald stil för checkboxar och radioknappar
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const parent = this.closest('.checkbox-item, .radio-item');
+                
+                if (this.type === 'radio') {
+                    // Ta bort selected från alla radioknappar i samma grupp
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(radio => {
+                        radio.closest('.radio-item').classList.remove('selected');
+                    });
+                }
+                
+                if (this.checked) {
+                    parent.classList.add('selected');
+                } else {
+                    parent.classList.remove('selected');
+                }
+                
+                // Hantera visning av textrutor för "Annat" alternativ
+                handleOtherOptions(this);
+                
+                updateCostEstimate();
+            });
+        });
+
+        // Funktion för att hantera "Annat" alternativ
+        function handleOtherOptions(input) {
+            if (input.type === 'radio' && input.value === 'other') {
+                const fieldName = input.name;
+                const otherField = document.getElementById(fieldName + '-other');
+                if (otherField) {
+                    otherField.style.display = 'block';
+                    otherField.querySelector('textarea').focus();
+                }
+            } else if (input.type === 'radio' && input.value !== 'other') {
+                const fieldName = input.name;
+                const otherField = document.getElementById(fieldName + '-other');
+                if (otherField) {
+                    otherField.style.display = 'none';
+                    otherField.querySelector('textarea').value = '';
+                }
+            }
+        }
+
+        // Uppdatera kostnadsuppskattning
+        function updateCostEstimate() {
+            const quality = document.querySelector('input[name="quality"]:checked');
+            const services = document.querySelector('input[name="services"]:checked');
+            const accessories = document.querySelectorAll('input[name="accessories"]:checked');
+            
+            // Hämta valda komponenter
+            const graphicDesign = document.querySelectorAll('input[name="graphic_design"]:checked');
+            const construction = document.querySelectorAll('input[name="construction"]:checked');
+            const otherServices = document.querySelectorAll('input[name="other_services"]:checked');
+            
+            let minCost = 5000; // Startkostnad
+            let maxCost = 5000; // Startkostnad
+            
+            // Bestäm kvalitetsmultiplikator
+            let qualityMultiplier = 1.0;
+            if (quality) {
+                switch(quality.value) {
+                    case 'budget':
+                        qualityMultiplier = 1.2;
+                        break;
+                    case 'standard':
+                        qualityMultiplier = 1.4;
+                        break;
+                    case 'premium':
+                        qualityMultiplier = 1.6;
+                        break;
+                }
+            }
+            
+            // Lägg till kostnader för grafisk design
+            graphicDesign.forEach(component => {
+                let componentMinCost = 0;
+                let componentMaxCost = 0;
+                
+                switch(component.value) {
+                    case 'lyckohjul':
+                        componentMinCost = 5000;
+                        componentMaxCost = 8000;
+                        break;
+                    case 'disk':
+                        componentMinCost = 3000;
+                        componentMaxCost = 5000;
+                        break;
+                    case 'bakre_vagg':
+                        componentMinCost = 8000;
+                        componentMaxCost = 12000;
+                        break;
+                    case 'vintunnor':
+                        componentMinCost = 2000;
+                        componentMaxCost = 4000;
+                        break;
+                    case 'kyl':
+                        componentMinCost = 4000;
+                        componentMaxCost = 6000;
+                        break;
+                }
+                
+                minCost += Math.round(componentMinCost * qualityMultiplier);
+                maxCost += Math.round(componentMaxCost * qualityMultiplier);
+            });
+            
+            // Lägg till kostnader för bygg
+            construction.forEach(component => {
+                let componentMinCost = 0;
+                let componentMaxCost = 0;
+                
+                switch(component.value) {
+                    case 'bakvag':
+                        componentMinCost = 15000;
+                        componentMaxCost = 25000;
+                        break;
+                    case 'disk':
+                        componentMinCost = 10000;
+                        componentMaxCost = 18000;
+                        break;
+                    case 'belysning':
+                        componentMinCost = 3000;
+                        componentMaxCost = 6000;
+                        break;
+                }
+                
+                minCost += Math.round(componentMinCost * qualityMultiplier);
+                maxCost += Math.round(componentMaxCost * qualityMultiplier);
+            });
+            
+            // Lägg till kostnader för övriga tjänster
+            otherServices.forEach(service => {
+                let serviceMinCost = 0;
+                let serviceMaxCost = 0;
+                
+                switch(service.value) {
+                    case 'montering':
+                        serviceMinCost = 4000;
+                        serviceMaxCost = 7000;
+                        break;
+                    case 'transport':
+                        serviceMinCost = 2000;
+                        serviceMaxCost = 4000;
+                        break;
+                    case 'hyra_vintunna':
+                        serviceMinCost = 1500;
+                        serviceMaxCost = 3000;
+                        break;
+                }
+                
+                minCost += Math.round(serviceMinCost * qualityMultiplier);
+                maxCost += Math.round(serviceMaxCost * qualityMultiplier);
+            });
+            
+            // Lägg till kostnader baserat på tjänster (gamla systemet som backup)
+            if (services) {
+                let serviceMinCost = 0;
+                let serviceMaxCost = 0;
+                
+                switch(services.value) {
+                    case 'all':
+                        serviceMinCost = 8000; // Transport + montering + demontering
+                        serviceMaxCost = 12000;
+                        break;
+                    case 'transport_setup':
+                        serviceMinCost = 5000; // Transport + montering
+                        serviceMaxCost = 8000;
+                        break;
+                    case 'none':
+                        // Inga extra kostnader
+                        break;
+                }
+                
+                minCost += Math.round(serviceMinCost * qualityMultiplier);
+                maxCost += Math.round(serviceMaxCost * qualityMultiplier);
+            }
+            
+            // Lägg till kostnader för tillbehör
+            accessories.forEach(accessory => {
+                let accessoryMinCost = 0;
+                let accessoryMaxCost = 0;
+                
+                switch(accessory.value) {
+                    case 'chairs_tables':
+                        accessoryMinCost = 3000;
+                        accessoryMaxCost = 5000;
+                        break;
+                    case 'lighting':
+                        accessoryMinCost = 2000;
+                        accessoryMaxCost = 4000;
+                        break;
+                    case 'cash_register':
+                        accessoryMinCost = 4000;
+                        accessoryMaxCost = 6000;
+                        break;
+                    case 'storage':
+                        accessoryMinCost = 2000;
+                        accessoryMaxCost = 4000;
+                        break;
+                }
+                
+                minCost += Math.round(accessoryMinCost * qualityMultiplier);
+                maxCost += Math.round(accessoryMaxCost * qualityMultiplier);
+            });
+            
+            // Visa kostnad endast om något är valt
+            if (minCost > 0) {
+                const costText = `${minCost.toLocaleString('sv-SE')} - ${maxCost.toLocaleString('sv-SE')} SEK`;
+                document.getElementById('costEstimate').textContent = costText;
+                
+                // Uppdatera floating indicator
+                document.getElementById('costIndicator').textContent = 
+                    `${Math.round(minCost/1000)}k-${Math.round(maxCost/1000)}k`;
+                
+                // Uppdatera kvalitetsindikator
+                if (quality) {
+                    const qualityMap = {
+                        'budget': 'Budget',
+                        'standard': 'Standard',
+                        'premium': 'Premium'
+                    };
+                    document.getElementById('qualityIndicator').textContent = qualityMap[quality.value];
+                } else {
+                    // Visa grundkostnad för förvalda komponenter
+                    document.getElementById('qualityIndicator').textContent = 'Grundpaket';
+                }
+                
+                // Animera kostnadsvisning
+                const costDisplay = document.querySelector('.cost-display');
+                costDisplay.style.animation = 'none';
+                setTimeout(() => {
+                    costDisplay.style.animation = 'pulseGlow 0.5s ease';
+                }, 10);
+            } else {
+                document.getElementById('costEstimate').textContent = 'Välj komponenter för att se kostnadsuppskattning';
+                document.getElementById('costIndicator').textContent = '-';
+                document.getElementById('qualityIndicator').textContent = '-';
+            }
+        }
+        
+        // Lägg till animation för kostnadsdisplay
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulseGlow {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.02); box-shadow: 0 15px 40px rgba(56, 239, 125, 0.3); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+
+        // Generera sammanfattning
+        function generateSummary() {
+            const formData = new FormData(document.getElementById('feedbackForm'));
+            let summary = `<div class="summary-section">
+                <h3>Boursin Blue - Bekräftelse av projektval</h3>
+                <p><strong>Datum:</strong> ${new Date().toLocaleDateString('sv-SE')}</p>
+                <p><strong>Event:</strong> 7 november</p>
+                <p><strong>Installation:</strong> 6 november</p>
+            </div>`;
+            
+            // Valda komponenter
+            const graphicDesign = formData.getAll('graphic_design');
+            const construction = formData.getAll('construction');
+            const otherServices = formData.getAll('other_services');
+            
+            if (graphicDesign.length > 0 || construction.length > 0 || otherServices.length > 0) {
+                summary += `<div class="summary-section">
+                    <h3>Valda komponenter</h3>
+                    <ul>`;
+                
+                if (graphicDesign.length > 0) {
+                    summary += `<li><strong>Grafisk design:</strong> ${graphicDesign.join(', ')}</li>`;
+                }
+                
+                if (construction.length > 0) {
+                    summary += `<li><strong>Bygg:</strong> ${construction.join(', ')}</li>`;
+                }
+                
+                if (otherServices.length > 0) {
+                    summary += `<li><strong>Övrigt:</strong> ${otherServices.join(', ')}</li>`;
+                }
+                
+                summary += `</ul></div>`;
+            }
+            
+            // Kvalitetsnivå
+            const quality = formData.get('quality');
+            if (quality) {
+                const qualityText = {
+                    'budget': 'Budget - Enklare material',
+                    'standard': 'Standard - Balanserad kvalitet',
+                    'premium': 'Premium - Högkvalitativa material'
+                };
+                summary += `<div class="summary-section">
+                    <h3>Kvalitetsnivå</h3>
+                    <p>${qualityText[quality]}</p>
+                </div>`;
+            }
+            
+            // Design och Material
+            summary += `<div class="summary-section"><h3>Design och Material</h3><ul>`;
+            
+            const backwall = formData.get('backwall');
+            if (backwall) {
+                const backwallText = {
+                    'print': 'Heltäckande print',
+                    'combination': 'Kombinerad print/yta (liknande bilden)',
+                    'other': 'Annat (se kommentarer)'
+                };
+                summary += `<li>Bakvägg: ${backwallText[backwall]}</li>`;
+                if (backwall === 'other') {
+                    const backwallOther = formData.get('backwall_other');
+                    if (backwallOther) {
+                        summary += `<li>Bakvägg beskrivning: ${backwallOther}</li>`;
+                    }
+                }
+            }
+            
+            const logo = formData.get('logo');
+            if (logo) {
+                const logoText = {
+                    '3d': 'Utskurna 3D-bokstäver',
+                    '2d': 'Platt grafik',
+                    'undecided': 'Inte bestämt än'
+                };
+                summary += `<li>Boursin-logga: ${logoText[logo]}</li>`;
+            }
+            
+            const herbs = formData.get('herbs');
+            if (herbs) {
+                const herbsText = {
+                    'real': 'Äkta örter',
+                    'artificial': 'Konstgjorda örter',
+                    'no_preference': 'Spelar ingen roll'
+                };
+                summary += `<li>Örter: ${herbsText[herbs]}</li>`;
+            }
+            
+            const material = formData.get('material');
+            if (material) {
+                const materialText = {
+                    'plywood': 'Enklare plywood som målas',
+                    'robust': 'Robustare material som ser ut som äkta trä',
+                    'other': 'Annat (se kommentarer)'
+                };
+                summary += `<li>Material: ${materialText[material]}</li>`;
+                if (material === 'other') {
+                    const materialOther = formData.get('material_other');
+                    if (materialOther) {
+                        summary += `<li>Material beskrivning: ${materialOther}</li>`;
+                    }
+                }
+            }
+            
+            const wallConstruction = formData.get('wall_construction');
+            if (wallConstruction) {
+                const wallText = {
+                    'full_wall': 'Bygga hela tegelväggen med valv',
+                    'wheel_only': 'Montera hjulet på en ny vägg',
+                    'undecided': 'Inte bestämt än'
+                };
+                summary += `<li>Väggkonstruktion: ${wallText[wallConstruction]}</li>`;
+            }
+            
+            const wheelRedesign = formData.get('wheel_redesign');
+            if (wheelRedesign) {
+                const wheelText = {
+                    'color_only': 'Endast ny färg',
+                    'graphics_only': 'Ny grafik och nya fält',
+                    'both': 'Både ny färg och ny grafik',
+                    'undecided': 'Inte bestämt än'
+                };
+                summary += `<li>Hjul redesign: ${wheelText[wheelRedesign]}</li>`;
+            }
+            
+            summary += `</ul></div>`;
+            
+            // Tillbehör
+            const accessories = formData.getAll('accessories');
+            if (accessories.length > 0) {
+                summary += `<div class="summary-section"><h3>Tillbehör</h3><ul>`;
+                accessories.forEach(accessory => {
+                    const accessoryText = {
+                        'chairs_tables': 'Stolar och bord (liknande bilden)',
+                        'lighting': 'Lampa/spotlights',
+                        'cash_register': 'Kassa/betalningssystem',
+                        'storage': 'Skåp/förvaring'
+                    };
+                    summary += `<li>${accessoryText[accessory]}</li>`;
+                });
+                summary += `</ul></div>`;
+            }
+            
+            // Tjänster
+            const services = formData.get('services');
+            if (services) {
+                const serviceText = {
+                    'all': 'Ja, allt (transport, montering och demontering)',
+                    'transport_setup': 'Endast transport och montering',
+                    'none': 'Nej, vi löser det själva'
+                };
+                summary += `<div class="summary-section">
+                    <h3>Transport och montering</h3>
+                    <p>${serviceText[services]}</p>
+                </div>`;
+            }
+            
+            // Kommentarer
+            const comments = formData.get('comments');
+            if (comments && comments.trim()) {
+                summary += `<div class="summary-section">
+                    <h3>Övriga kommentarer</h3>
+                    <p>${comments}</p>
+                </div>`;
+            }
+            
+            // Kostnad
+            const costEstimate = document.getElementById('costEstimate').textContent;
+            summary += `<div class="summary-section">
+                <h3>Estimerad kostnad</h3>
+                <p><strong>${costEstimate}</strong></p>
+                <p style="font-size: 0.9rem; color: #666;">Exklusive moms. Grafisk design får 10% rabatt.</p>
+            </div>`;
+            
+            document.getElementById('summaryText').innerHTML = summary;
+            document.getElementById('summaryModal').style.display = 'block';
+        }
+
+        // Stäng sammanfattning
+        function closeSummary() {
+            document.getElementById('summaryModal').style.display = 'none';
+        }
+
+        // Generera textversion för kopiering/mail
+        function generateTextVersion() {
+            const formData = new FormData(document.getElementById('feedbackForm'));
+            let text = `BOURSIN BLUE - PROJEKTBEKRÄFTELSE\n`;
+            text += `================================\n\n`;
+            text += `Datum: ${new Date().toLocaleDateString('sv-SE')}\n`;
+            text += `Event: 7 november\n`;
+            text += `Installation: 6 november\n\n`;
+            
+            // Valda komponenter
+            const graphicDesign = formData.getAll('graphic_design');
+            const construction = formData.getAll('construction');
+            const otherServices = formData.getAll('other_services');
+            
+            if (graphicDesign.length > 0 || construction.length > 0 || otherServices.length > 0) {
+                text += `VALDA KOMPONENTER\n`;
+                text += `-----------------\n`;
+                
+                if (graphicDesign.length > 0) {
+                    text += `• Grafisk design: ${graphicDesign.join(', ')}\n`;
+                }
+                
+                if (construction.length > 0) {
+                    text += `• Bygg: ${construction.join(', ')}\n`;
+                }
+                
+                if (otherServices.length > 0) {
+                    text += `• Övrigt: ${otherServices.join(', ')}\n`;
+                }
+                
+                text += `\n`;
+            }
+            
+            // Kvalitetsnivå
+            const quality = formData.get('quality');
+            if (quality) {
+                const qualityText = {
+                    'budget': 'Budget - Enklare material',
+                    'standard': 'Standard - Balanserad kvalitet',
+                    'premium': 'Premium - Högkvalitativa material'
+                };
+                text += `KVALITETSNIVÅ\n`;
+                text += `-------------\n`;
+                text += `${qualityText[quality]}\n\n`;
+            }
+            
+            // Design och Material
+            text += `DESIGN OCH MATERIAL\n`;
+            text += `------------------\n`;
+            
+            const backwall = formData.get('backwall');
+            if (backwall) {
+                const backwallText = {
+                    'print': 'Heltäckande print',
+                    'combination': 'Kombinerad print/yta (liknande bilden)',
+                    'other': 'Annat (se kommentarer)'
+                };
+                text += `• Bakvägg: ${backwallText[backwall]}\n`;
+                if (backwall === 'other') {
+                    const backwallOther = formData.get('backwall_other');
+                    if (backwallOther) {
+                        text += `• Bakvägg beskrivning: ${backwallOther}\n`;
+                    }
+                }
+            }
+            
+            const logo = formData.get('logo');
+            if (logo) {
+                const logoText = {
+                    '3d': 'Utskurna 3D-bokstäver',
+                    '2d': 'Platt grafik',
+                    'undecided': 'Inte bestämt än'
+                };
+                text += `• Boursin-logga: ${logoText[logo]}\n`;
+            }
+            
+            const herbs = formData.get('herbs');
+            if (herbs) {
+                const herbsText = {
+                    'real': 'Äkta örter',
+                    'artificial': 'Konstgjorda örter',
+                    'no_preference': 'Spelar ingen roll'
+                };
+                text += `• Örter: ${herbsText[herbs]}\n`;
+            }
+            
+            const material = formData.get('material');
+            if (material) {
+                const materialText = {
+                    'plywood': 'Enklare plywood som målas',
+                    'robust': 'Robustare material som ser ut som äkta trä',
+                    'other': 'Annat (se kommentarer)'
+                };
+                text += `• Material: ${materialText[material]}\n`;
+                if (material === 'other') {
+                    const materialOther = formData.get('material_other');
+                    if (materialOther) {
+                        text += `• Material beskrivning: ${materialOther}\n`;
+                    }
+                }
+            }
+            
+            const wallConstruction = formData.get('wall_construction');
+            if (wallConstruction) {
+                const wallText = {
+                    'full_wall': 'Bygga hela tegelväggen med valv',
+                    'wheel_only': 'Montera hjulet på en ny vägg',
+                    'undecided': 'Inte bestämt än'
+                };
+                text += `• Väggkonstruktion: ${wallText[wallConstruction]}\n`;
+            }
+            
+            const wheelRedesign = formData.get('wheel_redesign');
+            if (wheelRedesign) {
+                const wheelText = {
+                    'color_only': 'Endast ny färg',
+                    'graphics_only': 'Ny grafik och nya fält',
+                    'both': 'Både ny färg och ny grafik',
+                    'undecided': 'Inte bestämt än'
+                };
+                text += `• Hjul redesign: ${wheelText[wheelRedesign]}\n`;
+            }
+            
+            text += `\n`;
+            
+            // Tillbehör
+            const accessories = formData.getAll('accessories');
+            if (accessories.length > 0) {
+                text += `TILLBEHÖR\n`;
+                text += `---------\n`;
+                accessories.forEach(accessory => {
+                    const accessoryText = {
+                        'chairs_tables': 'Stolar och bord (liknande bilden)',
+                        'lighting': 'Lampa/spotlights',
+                        'cash_register': 'Kassa/betalningssystem',
+                        'storage': 'Skåp/förvaring'
+                    };
+                    text += `• ${accessoryText[accessory]}\n`;
+                });
+                text += `\n`;
+            }
+            
+            // Tjänster
+            const services = formData.get('services');
+            if (services) {
+                const serviceText = {
+                    'all': 'Ja, allt (transport, montering och demontering)',
+                    'transport_setup': 'Endast transport och montering',
+                    'none': 'Nej, vi löser det själva'
+                };
+                text += `TRANSPORT OCH MONTERING\n`;
+                text += `----------------------\n`;
+                text += `${serviceText[services]}\n\n`;
+            }
+            
+            // Kommentarer
+            const comments = formData.get('comments');
+            if (comments && comments.trim()) {
+                text += `ÖVRIGA KOMMENTARER\n`;
+                text += `-----------------\n`;
+                text += `${comments}\n\n`;
+            }
+            
+            // Kostnad
+            const costEstimate = document.getElementById('costEstimate').textContent;
+            text += `ESTIMERAD KOSTNAD\n`;
+            text += `----------------\n`;
+            text += `${costEstimate}\n`;
+            text += `(Exklusive moms. Grafisk design får 10% rabatt på slutfaktura)\n\n`;
+            
+            text += `================================\n`;
+            text += `Bekräfta gärna snarast, senast 25 september.\n`;
+            text += `Med vänliga hälsningar`;
+            
+            return text;
+        }
+
+        // Skicka mail
+        function sendEmail() {
+            const text = generateTextVersion();
+            const subject = 'Boursin Blue - Projektbekräftelse';
+            const body = encodeURIComponent(text);
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        // Kopiera till urklipp
+        function copyToClipboard() {
+            const text = generateTextVersion();
+            navigator.clipboard.writeText(text).then(() => {
+                const successMsg = document.getElementById('copySuccess');
+                successMsg.style.display = 'flex';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 1000);
+            });
+        }
+
+        // Stäng modal om man klickar utanför
+        window.onclick = function(event) {
+            const modal = document.getElementById('summaryModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Sätt förvalda komponenter som valda
+        function setDefaultSelections() {
+            // Förvalda komponenter
+            const defaultComponents = [
+                'input[name="graphic_design"][value="lyckohjul"]',
+                'input[name="graphic_design"][value="disk"]',
+                'input[name="graphic_design"][value="bakre_vagg"]',
+                'input[name="construction"][value="bakvag"]',
+                'input[name="construction"][value="disk"]',
+                'input[name="other_services"][value="transport"]'
+            ];
+            
+            defaultComponents.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.checked = true;
+                    element.closest('.checkbox-item').classList.add('selected');
+                }
+            });
+            
+            // Sätt Budget som förvald kvalitetsnivå
+            const budgetQuality = document.querySelector('input[name="quality"][value="budget"]');
+            if (budgetQuality) {
+                budgetQuality.checked = true;
+                budgetQuality.closest('.radio-item').classList.add('selected');
+            }
+            
+            // Uppdatera kostnad när förvalda komponenter är satta
+            updateCostEstimate();
+        }
+        
+        // Kör när sidan laddas
+        setDefaultSelections();
+
+        // Sidebar navigation
+        function initSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            // Toggle sidebar on mobile
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                sidebarOverlay.classList.toggle('show');
+            });
+
+            // Close sidebar when clicking overlay
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('show');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(e.target) && 
+                    !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('show');
+                }
+            });
+
+            // Navigation functionality
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                    
+                    // Get target section
+                    const sectionId = item.getAttribute('data-section');
+                    const targetSection = document.getElementById(sectionId);
+                    
+                    if (targetSection) {
+                        // Scroll to section
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Close sidebar on mobile after navigation
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('open');
+                            sidebarOverlay.classList.remove('show');
+                        }
+                    }
+                });
+            });
+
+            // Update active nav item based on scroll position
+            function updateActiveNav() {
+                const sections = document.querySelectorAll('.section');
+                const scrollPos = window.scrollY + 100;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        const activeNav = document.querySelector(`[data-section="${sectionId}"]`);
+                        if (activeNav) {
+                            activeNav.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // Update active nav on scroll
+            window.addEventListener('scroll', updateActiveNav);
+            
+            // Initial update
+            updateActiveNav();
+        }
+
+        // Initialize sidebar when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initSidebar);
+    </script>
+</body>
+</html>
