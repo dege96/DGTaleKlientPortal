@@ -1212,11 +1212,11 @@
                         <div class="question-content">
                             <div class="checkbox-group">
                                 <label class="checkbox-item">
-                                    <input type="checkbox" name="construction" value="bakvag" checked>
+                                    <input type="checkbox" name="construction" value="bakvag">
                                     <span>Bakvägg (3m x 2m x 0.1m)</span>
                                 </label>
                                 <label class="checkbox-item">
-                                    <input type="checkbox" name="construction" value="disk" checked>
+                                    <input type="checkbox" name="construction" value="disk">
                                     <span>Disk (2m x 1,1m x 1m) - OBS: föreslår max 70cm djup</span>
                                 </label>
                                 <label class="checkbox-item">
@@ -1246,7 +1246,7 @@
                                         <span>Annat, beskriv:</span>
                                     </label>
                                 </div>
-                                <div class="form-group" id="disk-material-other" style="display: none; margin-top: 15px;">
+                                <div class="form-group" id="disk_material-other" style="display: none; margin-top: 15px;">
                                     <textarea class="notes-field" name="disk_material_other" placeholder="Beskriv önskat material för disken här..."></textarea>
                                 </div>
                             </div>
@@ -1272,7 +1272,7 @@
                                         <span>Annat, beskriv:</span>
                                     </label>
                                 </div>
-                                <div class="form-group" id="backwall-material-other" style="display: none; margin-top: 15px;">
+                                <div class="form-group" id="backwall_material-other" style="display: none; margin-top: 15px;">
                                     <textarea class="notes-field" name="backwall_material_other" placeholder="Beskriv önskat material för bakväggen här..."></textarea>
                                 </div>
                             </div>
@@ -1529,7 +1529,7 @@
                             radio.checked = false;
                             radio.closest('.radio-item').classList.remove('selected');
                         });
-                        document.getElementById('disk-material-other').style.display = 'none';
+                        document.getElementById('disk_material-other').style.display = 'none';
                         document.querySelector('textarea[name="disk_material_other"]').value = '';
                     }
                 }
@@ -1546,7 +1546,7 @@
                             radio.checked = false;
                             radio.closest('.radio-item').classList.remove('selected');
                         });
-                        document.getElementById('backwall-material-other').style.display = 'none';
+                        document.getElementById('backwall_material-other').style.display = 'none';
                         document.querySelector('textarea[name="backwall_material_other"]').value = '';
                     }
                 }
@@ -2243,8 +2243,6 @@
                 'input[name="graphic_design"][value="lyckohjul"]',
                 'input[name="graphic_design"][value="disk"]',
                 'input[name="graphic_design"][value="bakre_vagg"]',
-                'input[name="construction"][value="bakvag"]',
-                'input[name="construction"][value="disk"]',
                 'input[name="other_services"][value="transport"]'
             ];
             
