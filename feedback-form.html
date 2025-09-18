@@ -1145,9 +1145,6 @@
                     <span class="nav-item-icon">📧</span>
                     Skicka formulär
                 </a>
-                <a href="#kopiera" class="nav-item" data-section="kopiera">
-                    Kopiera text
-                </a>
             </div>
         </div>
     </nav>
@@ -1243,10 +1240,6 @@
                                 <label class="checkbox-item">
                                     <input type="checkbox" name="other_services" value="transport" checked>
                                     <span>Transport & emballage</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" name="other_services" value="hyra_vintunna">
-                                    <span>Hyra vintunna</span>
                                 </label>
                             </div>
                         </div>
@@ -1715,15 +1708,40 @@
                     <ul>`;
                 
                 if (graphicDesign.length > 0) {
-                    summary += `<li><strong>Grafisk design:</strong> ${graphicDesign.join(', ')}</li>`;
+                    const graphicDesignText = graphicDesign.map(item => {
+                        const graphicMap = {
+                            'lyckohjul': 'Lyckohjul',
+                            'disk': 'Disk',
+                            'bakre_vagg': 'Bakre vägg',
+                            'kyl': 'Kyl'
+                        };
+                        return graphicMap[item] || item;
+                    });
+                    summary += `<li><strong>Grafisk design:</strong> ${graphicDesignText.join(', ')}</li>`;
                 }
                 
                 if (construction.length > 0) {
-                    summary += `<li><strong>Bygg:</strong> ${construction.join(', ')}</li>`;
+                    const constructionText = construction.map(item => {
+                        const constructionMap = {
+                            'bakvag': 'Bakvägg (3m x 2m x 0.1m)',
+                            'disk': 'Disk (2m x 1,1m x 1m)',
+                            'belysning': 'Belysning'
+                        };
+                        return constructionMap[item] || item;
+                    });
+                    summary += `<li><strong>Bygg:</strong> ${constructionText.join(', ')}</li>`;
                 }
                 
                 if (otherServices.length > 0) {
-                    summary += `<li><strong>Övrigt:</strong> ${otherServices.join(', ')}</li>`;
+                    const otherServicesText = otherServices.map(item => {
+                        const otherMap = {
+                            'montering': 'Montering',
+                            'transport': 'Transport & emballage',
+                            'hyra_vintunna': 'Hyra vintunna'
+                        };
+                        return otherMap[item] || item;
+                    });
+                    summary += `<li><strong>Övrigt:</strong> ${otherServicesText.join(', ')}</li>`;
                 }
                 
                 summary += `</ul></div>`;
@@ -1880,7 +1898,7 @@
         // Generera textversion för kopiering/mail
         function generateTextVersion() {
             const formData = new FormData(document.getElementById('feedbackForm'));
-            let text = `BOURSIN BLUE - PROJEKTBEKRÄFTELSE\n`;
+            let text = `BOURSIN BLUE\n`;
             text += `================================\n\n`;
             text += `Datum: ${new Date().toLocaleDateString('sv-SE')}\n`;
             text += `Event: 7 november\n`;
@@ -1896,15 +1914,40 @@
                 text += `-----------------\n`;
                 
                 if (graphicDesign.length > 0) {
-                    text += `• Grafisk design: ${graphicDesign.join(', ')}\n`;
+                    const graphicDesignText = graphicDesign.map(item => {
+                        const graphicMap = {
+                            'lyckohjul': 'Lyckohjul',
+                            'disk': 'Disk',
+                            'bakre_vagg': 'Bakre vägg',
+                            'kyl': 'Kyl'
+                        };
+                        return graphicMap[item] || item;
+                    });
+                    text += `• Grafisk design: ${graphicDesignText.join(', ')}\n`;
                 }
                 
                 if (construction.length > 0) {
-                    text += `• Bygg: ${construction.join(', ')}\n`;
+                    const constructionText = construction.map(item => {
+                        const constructionMap = {
+                            'bakvag': 'Bakvägg (3m x 2m x 0.1m)',
+                            'disk': 'Disk (2m x 1,1m x 1m)',
+                            'belysning': 'Belysning'
+                        };
+                        return constructionMap[item] || item;
+                    });
+                    text += `• Bygg: ${constructionText.join(', ')}\n`;
                 }
                 
                 if (otherServices.length > 0) {
-                    text += `• Övrigt: ${otherServices.join(', ')}\n`;
+                    const otherServicesText = otherServices.map(item => {
+                        const otherMap = {
+                            'montering': 'Montering',
+                            'transport': 'Transport & emballage',
+                            'hyra_vintunna': 'Hyra vintunna'
+                        };
+                        return otherMap[item] || item;
+                    });
+                    text += `• Övrigt: ${otherServicesText.join(', ')}\n`;
                 }
                 
                 text += `\n`;
@@ -2057,7 +2100,7 @@
         // Skicka mail
         function sendEmail() {
             const text = generateTextVersion();
-            const subject = 'Boursin Blue - Projektbekräftelse';
+            const subject = 'Boursin Blue';
             const body = encodeURIComponent(text);
             window.location.href = `mailto:?subject=${subject}&body=${body}`;
         }
