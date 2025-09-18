@@ -1642,12 +1642,13 @@
             
             // Visa kostnad endast om något är valt
             if (minCost > 0) {
-                const costText = `${minCost.toLocaleString('sv-SE')} - ${maxCost.toLocaleString('sv-SE')} SEK`;
+                const averageCost = Math.round((minCost + maxCost) / 2);
+                const costText = `${averageCost.toLocaleString('sv-SE')} SEK`;
                 document.getElementById('costEstimate').textContent = costText;
                 
                 // Uppdatera floating indicator
                 document.getElementById('costIndicator').textContent = 
-                    `${Math.round(minCost/1000)}k-${Math.round(maxCost/1000)}k`;
+                    `${Math.round(averageCost/1000)}k`;
                 
                 // Uppdatera kvalitetsindikator
                 if (quality) {
