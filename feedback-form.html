@@ -1225,6 +1225,58 @@
                                 </label>
                             </div>
                         </div>
+
+                        <!-- Material för disk - visas endast när disk är vald -->
+                        <div class="question-container" id="disk-material-question" style="display: none;">
+                            <div class="question-header">
+                                <label>Vilken typ av material ska användas för disken?</label>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="disk_material" value="plywood">
+                                        <span>Enklare plywood som målas</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="disk_material" value="robust">
+                                        <span>Robustare material som ser ut som äkta trä</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="disk_material" value="other">
+                                        <span>Annat, beskriv:</span>
+                                    </label>
+                                </div>
+                                <div class="form-group" id="disk-material-other" style="display: none; margin-top: 15px;">
+                                    <textarea class="notes-field" name="disk_material_other" placeholder="Beskriv önskat material för disken här..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Material för bakvägg - visas endast när bakvägg är vald -->
+                        <div class="question-container" id="backwall-material-question" style="display: none;">
+                            <div class="question-header">
+                                <label>Vilken typ av material ska användas för bakväggen?</label>
+                            </div>
+                            <div class="question-content">
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="backwall_material" value="plywood">
+                                        <span>Enklare plywood som målas</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="backwall_material" value="robust">
+                                        <span>Robustare material som ser ut som äkta trä</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="backwall_material" value="other">
+                                        <span>Annat, beskriv:</span>
+                                    </label>
+                                </div>
+                                <div class="form-group" id="backwall-material-other" style="display: none; margin-top: 15px;">
+                                    <textarea class="notes-field" name="backwall_material_other" placeholder="Beskriv önskat material för bakväggen här..."></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="question-container">
@@ -1297,30 +1349,7 @@
                         </div>
                     </div>
 
-                    <div class="question-container">
-                        <div class="question-header">
-                            <label>Vilken typ av material ska användas för disken?</label>
-                        </div>
-                        <div class="question-content">
-                            <div class="radio-group">
-                                <label class="radio-item">
-                                    <input type="radio" name="material" value="plywood">
-                                    <span>Enklare plywood som målas</span>
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="material" value="robust">
-                                    <span>Robustare material som ser ut som äkta trä</span>
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="material" value="other">
-                                    <span>Annat, beskriv:</span>
-                                </label>
-                            </div>
-                            <div class="form-group" id="material-other" style="display: none; margin-top: 15px;">
-                                <textarea class="notes-field" name="material_other" placeholder="Beskriv önskat material här..."></textarea>
-                            </div>
-                        </div>
-                    </div>
+
 
 
                 </div>
@@ -1456,6 +1485,9 @@
                 // Hantera visning av textrutor för "Annat" alternativ
                 handleOtherOptions(this);
                 
+                // Hantera dynamisk visning av materialfrågor
+                handleMaterialQuestions(this);
+                
                 updateCostEstimate();
             });
         });
@@ -1475,6 +1507,48 @@
                 if (otherField) {
                     otherField.style.display = 'none';
                     otherField.querySelector('textarea').value = '';
+                }
+            }
+        }
+
+        // Funktion för att hantera dynamisk visning av materialfrågor
+        function handleMaterialQuestions(input) {
+            if (input.type === 'checkbox') {
+                const componentName = input.name;
+                const componentValue = input.value;
+                
+                // Visa disk materialfråga om disk är vald
+                if (componentName === 'construction' && componentValue === 'disk') {
+                    const diskMaterialQuestion = document.getElementById('disk-material-question');
+                    if (input.checked) {
+                        diskMaterialQuestion.style.display = 'block';
+                    } else {
+                        diskMaterialQuestion.style.display = 'none';
+                        // Rensa valda alternativ när frågan döljs
+                        document.querySelectorAll('input[name="disk_material"]').forEach(radio => {
+                            radio.checked = false;
+                            radio.closest('.radio-item').classList.remove('selected');
+                        });
+                        document.getElementById('disk-material-other').style.display = 'none';
+                        document.querySelector('textarea[name="disk_material_other"]').value = '';
+                    }
+                }
+                
+                // Visa bakvägg materialfråga om bakvägg är vald
+                if (componentName === 'construction' && componentValue === 'bakvag') {
+                    const backwallMaterialQuestion = document.getElementById('backwall-material-question');
+                    if (input.checked) {
+                        backwallMaterialQuestion.style.display = 'block';
+                    } else {
+                        backwallMaterialQuestion.style.display = 'none';
+                        // Rensa valda alternativ när frågan döljs
+                        document.querySelectorAll('input[name="backwall_material"]').forEach(radio => {
+                            radio.checked = false;
+                            radio.closest('.radio-item').classList.remove('selected');
+                        });
+                        document.getElementById('backwall-material-other').style.display = 'none';
+                        document.querySelector('textarea[name="backwall_material_other"]').value = '';
+                    }
                 }
             }
         }
@@ -1801,18 +1875,36 @@
                 summary += `<li>Örter: ${herbsText[herbs]}</li>`;
             }
             
-            const material = formData.get('material');
-            if (material) {
-                const materialText = {
+            // Material för disk
+            const diskMaterial = formData.get('disk_material');
+            if (diskMaterial) {
+                const diskMaterialText = {
                     'plywood': 'Enklare plywood som målas',
                     'robust': 'Robustare material som ser ut som äkta trä',
                     'other': 'Annat (se kommentarer)'
                 };
-                summary += `<li>Material: ${materialText[material]}</li>`;
-                if (material === 'other') {
-                    const materialOther = formData.get('material_other');
-                    if (materialOther) {
-                        summary += `<li>Material beskrivning: ${materialOther}</li>`;
+                summary += `<li>Disk material: ${diskMaterialText[diskMaterial]}</li>`;
+                if (diskMaterial === 'other') {
+                    const diskMaterialOther = formData.get('disk_material_other');
+                    if (diskMaterialOther) {
+                        summary += `<li>Disk material beskrivning: ${diskMaterialOther}</li>`;
+                    }
+                }
+            }
+            
+            // Material för bakvägg
+            const backwallMaterial = formData.get('backwall_material');
+            if (backwallMaterial) {
+                const backwallMaterialText = {
+                    'plywood': 'Enklare plywood som målas',
+                    'robust': 'Robustare material som ser ut som äkta trä',
+                    'other': 'Annat (se kommentarer)'
+                };
+                summary += `<li>Bakvägg material: ${backwallMaterialText[backwallMaterial]}</li>`;
+                if (backwallMaterial === 'other') {
+                    const backwallMaterialOther = formData.get('backwall_material_other');
+                    if (backwallMaterialOther) {
+                        summary += `<li>Bakvägg material beskrivning: ${backwallMaterialOther}</li>`;
                     }
                 }
             }
@@ -2007,18 +2099,36 @@
                 text += `• Örter: ${herbsText[herbs]}\n`;
             }
             
-            const material = formData.get('material');
-            if (material) {
-                const materialText = {
+            // Material för disk
+            const diskMaterial = formData.get('disk_material');
+            if (diskMaterial) {
+                const diskMaterialText = {
                     'plywood': 'Enklare plywood som målas',
                     'robust': 'Robustare material som ser ut som äkta trä',
                     'other': 'Annat (se kommentarer)'
                 };
-                text += `• Material: ${materialText[material]}\n`;
-                if (material === 'other') {
-                    const materialOther = formData.get('material_other');
-                    if (materialOther) {
-                        text += `• Material beskrivning: ${materialOther}\n`;
+                text += `• Disk material: ${diskMaterialText[diskMaterial]}\n`;
+                if (diskMaterial === 'other') {
+                    const diskMaterialOther = formData.get('disk_material_other');
+                    if (diskMaterialOther) {
+                        text += `• Disk material beskrivning: ${diskMaterialOther}\n`;
+                    }
+                }
+            }
+            
+            // Material för bakvägg
+            const backwallMaterial = formData.get('backwall_material');
+            if (backwallMaterial) {
+                const backwallMaterialText = {
+                    'plywood': 'Enklare plywood som målas',
+                    'robust': 'Robustare material som ser ut som äkta trä',
+                    'other': 'Annat (se kommentarer)'
+                };
+                text += `• Bakvägg material: ${backwallMaterialText[backwallMaterial]}\n`;
+                if (backwallMaterial === 'other') {
+                    const backwallMaterialOther = formData.get('backwall_material_other');
+                    if (backwallMaterialOther) {
+                        text += `• Bakvägg material beskrivning: ${backwallMaterialOther}\n`;
                     }
                 }
             }
