@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boursin Blue - Återkopplingsformulär</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
     <style>
         * {
             margin: 0;
@@ -1119,30 +1120,30 @@
             <div class="nav-section">
                 <div class="nav-section-title">Projekt</div>
                 <a href="#komponenter" class="nav-item active" data-section="komponenter">
-                    <span class="nav-item-icon">📦</span>
+                    <i data-feather="package" class="nav-item-icon"></i>
                     Komponenter
                 </a>
                 <a href="#kvalitet" class="nav-item" data-section="kvalitet">
-                    <span class="nav-item-icon">⭐</span>
+                    <i data-feather="star" class="nav-item-icon"></i>
                     Kvalitet
                 </a>
                 <a href="#design" class="nav-item" data-section="design">
-                    <span class="nav-item-icon">🎨</span>
+                    <i data-feather="palette" class="nav-item-icon"></i>
                     Design
                 </a>
                 <a href="#transport" class="nav-item" data-section="transport">
-                    <span class="nav-item-icon">🚚</span>
+                    <i data-feather="truck" class="nav-item-icon"></i>
                     Transport
                 </a>
                 <a href="#kostnad" class="nav-item" data-section="kostnad">
-                    <span class="nav-item-icon">💰</span>
+                    <i data-feather="dollar-sign" class="nav-item-icon"></i>
                     Kostnad
                 </a>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title">Åtgärder</div>
                 <a href="#skicka" class="nav-item" data-section="skicka">
-                    <span class="nav-item-icon">📧</span>
+                    <i data-feather="mail" class="nav-item-icon"></i>
                     Skicka formulär
                 </a>
             </div>
@@ -1154,11 +1155,7 @@
 
     <!-- Mobile toggle -->
     <button class="sidebar-toggle" id="sidebarToggle">
-        <svg class="sidebar-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
+        <i data-feather="menu" class="sidebar-toggle-icon"></i>
     </button>
 
     <!-- Main content -->
@@ -1450,15 +1447,15 @@
     <!-- Floating action indicators -->
     <div class="floating-indicators">
         <div class="indicator-item" data-tooltip="Kvalitetsnivå">
-            <span class="indicator-icon">💎</span>
+            <i data-feather="award" class="indicator-icon"></i>
             <span class="indicator-status" id="qualityIndicator">-</span>
         </div>
         <div class="indicator-item" data-tooltip="Estimerad kostnad">
-            <span class="indicator-icon">💰</span>
+            <i data-feather="dollar-sign" class="indicator-icon"></i>
             <span class="indicator-status" id="costIndicator">-</span>
         </div>
         <div class="indicator-item" data-tooltip="Deadline">
-            <span class="indicator-icon">📅</span>
+            <i data-feather="calendar" class="indicator-icon"></i>
             <span class="indicator-status">25 sep</span>
         </div>
     </div>
@@ -2356,7 +2353,11 @@
         }
 
         // Initialize sidebar when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initSidebar);
+        document.addEventListener('DOMContentLoaded', function() {
+            initSidebar();
+            // Initialize Feather Icons
+            feather.replace();
+        });
     </script>
 </body>
 </html>
