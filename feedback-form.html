@@ -1609,6 +1609,58 @@
                 maxCost += Math.round(componentMaxCost * qualityMultiplier);
             });
             
+            // Lägg till kostnader för materialval
+            const diskMaterial = document.querySelector('input[name="disk_material"]:checked');
+            const backwallMaterial = document.querySelector('input[name="backwall_material"]:checked');
+            
+            // Materialkostnad för disk
+            if (diskMaterial) {
+                let materialMultiplier = 1.0;
+                switch(diskMaterial.value) {
+                    case 'plywood':
+                        materialMultiplier = 1.0; // Grundkostnad
+                        break;
+                    case 'robust':
+                        materialMultiplier = 1.3; // 30% dyrare
+                        break;
+                    case 'other':
+                        materialMultiplier = 1.2; // 20% dyrare för anpassat material
+                        break;
+                }
+                
+                // Applicera materialkostnad endast om disk är vald i bygg
+                const diskSelected = document.querySelector('input[name="construction"][value="disk"]:checked');
+                if (diskSelected) {
+                    const diskBaseCost = 10000; // Grundkostnad för disk
+                    minCost += Math.round(diskBaseCost * (materialMultiplier - 1.0) * qualityMultiplier);
+                    maxCost += Math.round(diskBaseCost * (materialMultiplier - 1.0) * qualityMultiplier);
+                }
+            }
+            
+            // Materialkostnad för bakvägg
+            if (backwallMaterial) {
+                let materialMultiplier = 1.0;
+                switch(backwallMaterial.value) {
+                    case 'plywood':
+                        materialMultiplier = 1.0; // Grundkostnad
+                        break;
+                    case 'robust':
+                        materialMultiplier = 1.4; // 40% dyrare
+                        break;
+                    case 'other':
+                        materialMultiplier = 1.3; // 30% dyrare för anpassat material
+                        break;
+                }
+                
+                // Applicera materialkostnad endast om bakvägg är vald i bygg
+                const backwallSelected = document.querySelector('input[name="construction"][value="bakvag"]:checked');
+                if (backwallSelected) {
+                    const backwallBaseCost = 15000; // Grundkostnad för bakvägg
+                    minCost += Math.round(backwallBaseCost * (materialMultiplier - 1.0) * qualityMultiplier);
+                    maxCost += Math.round(backwallBaseCost * (materialMultiplier - 1.0) * qualityMultiplier);
+                }
+            }
+            
             // Lägg till kostnader för övriga tjänster
             otherServices.forEach(service => {
                 let serviceMinCost = 0;
