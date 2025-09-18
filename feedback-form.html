@@ -1306,7 +1306,7 @@
                             <div class="radio-group">
                                 <label class="radio-item">
                                     <input type="radio" name="quality" value="budget" checked>
-                                    <span><strong>Budget</strong> - Enklare material och standardlösningar</span>
+                                    <span><strong>Budget</strong> - Snabbt & enkelt</span>
                                 </label>
                                 <label class="radio-item">
                                     <input type="radio" name="quality" value="standard">
@@ -1349,33 +1349,6 @@
 
 
 
-                </div>
-
-                <!-- Transport och Montering -->
-                <div class="section" id="transport">
-                    <h2>Transport och Montering</h2>
-                    
-                    <div class="question-container">
-                        <div class="question-header">
-                            <label>Behöver ni hjälp med transport, montering och demontering av montern?</label>
-                        </div>
-                        <div class="question-content">
-                            <div class="radio-group">
-                                <label class="radio-item">
-                                    <input type="radio" name="services" value="all">
-                                    <span>Ja, allt</span>
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="services" value="transport_setup">
-                                    <span>Endast transport och montering</span>
-                                </label>
-                                <label class="radio-item">
-                                    <input type="radio" name="services" value="none">
-                                    <span>Nej, vi löser det själva</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Övriga kommentarer -->
@@ -1668,11 +1641,11 @@
                 switch(services.value) {
                     case 'all':
                         serviceMinCost = 8000; // Transport + montering + demontering
-                        serviceMaxCost = 12000;
+                        serviceMaxCost = 8000;
                         break;
                     case 'transport_setup':
                         serviceMinCost = 5000; // Transport + montering
-                        serviceMaxCost = 8000;
+                        serviceMaxCost = 5000;
                         break;
                     case 'none':
                         // Inga extra kostnader
