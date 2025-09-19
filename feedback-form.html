@@ -1131,6 +1131,10 @@
                     <i data-feather="palette" class="nav-item-icon"></i>
                     Design
                 </a>
+                <a href="#miljo" class="nav-item" data-section="miljo">
+                    <i data-feather="map-pin" class="nav-item-icon"></i>
+                    Miljö
+                </a>
                 <a href="#transport" class="nav-item" data-section="transport">
                     <i data-feather="truck" class="nav-item-icon"></i>
                     Transport
@@ -1299,9 +1303,47 @@
                                     <span>Montering</span>
                                 </label>
                                 <label class="checkbox-item">
+                                    <input type="checkbox" name="other_services" value="demontering">
+                                    <span>Demontering</span>
+                                </label>
+                                <label class="checkbox-item">
                                     <input type="checkbox" name="other_services" value="transport" checked>
                                     <span>Transport & emballage</span>
                                 </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miljö -->
+                <div class="section" id="miljo">
+                    <h2>Miljö</h2>
+                    
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Var ska installationen ske?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="environment" value="ute">
+                                    <span>Ute</span>
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="environment" value="inne">
+                                    <span>Inne</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Max totalvikt per objekt</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="form-group">
+                                <input type="text" name="max_weight" value="15kg" class="notes-field" style="min-height: auto; height: 50px; resize: none;" placeholder="Ange max vikt per objekt">
                             </div>
                         </div>
                     </div>
@@ -1695,6 +1737,10 @@
                         serviceMinCost = 4000;
                         serviceMaxCost = 7000;
                         break;
+                    case 'demontering':
+                        serviceMinCost = 3000;
+                        serviceMaxCost = 5000;
+                        break;
                     case 'transport':
                         serviceMinCost = 2000;
                         serviceMaxCost = 4000;
@@ -1860,6 +1906,7 @@
                     const otherServicesText = otherServices.map(item => {
                         const otherMap = {
                             'montering': 'Montering',
+                            'demontering': 'Demontering',
                             'transport': 'Transport & emballage',
                             'hyra_vintunna': 'Hyra vintunna'
                         };
@@ -1883,6 +1930,29 @@
                     <h3>Kvalitetsnivå</h3>
                     <p>${qualityText[quality]}</p>
                 </div>`;
+            }
+            
+            // Miljö
+            const environment = formData.get('environment');
+            const maxWeight = formData.get('max_weight');
+            if (environment || maxWeight) {
+                summary += `<div class="summary-section">
+                    <h3>Miljö</h3>
+                    <ul>`;
+                
+                if (environment) {
+                    const environmentText = {
+                        'ute': 'Ute',
+                        'inne': 'Inne'
+                    };
+                    summary += `<li>Installationsmiljö: ${environmentText[environment]}</li>`;
+                }
+                
+                if (maxWeight) {
+                    summary += `<li>Max totalvikt per objekt: ${maxWeight}</li>`;
+                }
+                
+                summary += `</ul></div>`;
             }
             
             // Design och Material
@@ -2087,6 +2157,7 @@
                     const otherServicesText = otherServices.map(item => {
                         const otherMap = {
                             'montering': 'Montering',
+                            'demontering': 'Demontering',
                             'transport': 'Transport & emballage',
                             'hyra_vintunna': 'Hyra vintunna'
                         };
@@ -2109,6 +2180,28 @@
                 text += `KVALITETSNIVÅ\n`;
                 text += `-------------\n`;
                 text += `${qualityText[quality]}\n\n`;
+            }
+            
+            // Miljö
+            const environment = formData.get('environment');
+            const maxWeight = formData.get('max_weight');
+            if (environment || maxWeight) {
+                text += `MILJÖ\n`;
+                text += `-----\n`;
+                
+                if (environment) {
+                    const environmentText = {
+                        'ute': 'Ute',
+                        'inne': 'Inne'
+                    };
+                    text += `• Installationsmiljö: ${environmentText[environment]}\n`;
+                }
+                
+                if (maxWeight) {
+                    text += `• Max totalvikt per objekt: ${maxWeight}\n`;
+                }
+                
+                text += `\n`;
             }
             
             // Design och Material
