@@ -1220,6 +1220,18 @@
                                     <input type="checkbox" name="construction" value="belysning">
                                     <span>Belysning</span>
                                 </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="malning">
+                                    <span>Målning</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="ihopfällbart">
+                                    <span>Ihopfällbart</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="construction" value="avtagbara_komponenter">
+                                    <span>Flera komponenter (avtagbara)</span>
+                                </label>
                             </div>
                         </div>
 
@@ -1603,6 +1615,18 @@
                         componentMinCost = 3000;
                         componentMaxCost = 6000;
                         break;
+                    case 'malning':
+                        componentMinCost = 2000;
+                        componentMaxCost = 4000;
+                        break;
+                    case 'ihopfällbart':
+                        componentMinCost = 5000;
+                        componentMaxCost = 8000;
+                        break;
+                    case 'avtagbara_komponenter':
+                        componentMinCost = 3000;
+                        componentMaxCost = 5000;
+                        break;
                 }
                 
                 minCost += Math.round(componentMinCost * qualityMultiplier);
@@ -1822,7 +1846,10 @@
                         const constructionMap = {
                             'bakvag': 'Bakvägg (3m x 2m x 0.1m)',
                             'disk': 'Disk (2m x 1,1m x 1m)',
-                            'belysning': 'Belysning'
+                            'belysning': 'Belysning',
+                            'malning': 'Målning',
+                            'ihopfällbart': 'Ihopfällbart',
+                            'avtagbara_komponenter': 'Flera komponenter (avtagbara)'
                         };
                         return constructionMap[item] || item;
                     });
@@ -2046,7 +2073,10 @@
                         const constructionMap = {
                             'bakvag': 'Bakvägg (3m x 2m x 0.1m)',
                             'disk': 'Disk (2m x 1,1m x 1m)',
-                            'belysning': 'Belysning'
+                            'belysning': 'Belysning',
+                            'malning': 'Målning',
+                            'ihopfällbart': 'Ihopfällbart',
+                            'avtagbara_komponenter': 'Flera komponenter (avtagbara)'
                         };
                         return constructionMap[item] || item;
                     });
