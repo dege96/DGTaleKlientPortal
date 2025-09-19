@@ -1347,6 +1347,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="question-container">
+                        <div class="question-header">
+                            <label>Eluttag i vilka objekt?</label>
+                        </div>
+                        <div class="question-content">
+                            <div class="form-group">
+                                <textarea class="notes-field" name="electrical_outlets" placeholder="Beskriv vilka objekt som behöver eluttag..."></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Kvalitetsnivå -->
@@ -1935,7 +1946,8 @@
             // Miljö
             const environment = formData.get('environment');
             const maxWeight = formData.get('max_weight');
-            if (environment || maxWeight) {
+            const electricalOutlets = formData.get('electrical_outlets');
+            if (environment || maxWeight || electricalOutlets) {
                 summary += `<div class="summary-section">
                     <h3>Miljö</h3>
                     <ul>`;
@@ -1950,6 +1962,10 @@
                 
                 if (maxWeight) {
                     summary += `<li>Max totalvikt per objekt: ${maxWeight}</li>`;
+                }
+                
+                if (electricalOutlets && electricalOutlets.trim()) {
+                    summary += `<li>Eluttag i vilka objekt: ${electricalOutlets}</li>`;
                 }
                 
                 summary += `</ul></div>`;
@@ -2185,7 +2201,8 @@
             // Miljö
             const environment = formData.get('environment');
             const maxWeight = formData.get('max_weight');
-            if (environment || maxWeight) {
+            const electricalOutlets = formData.get('electrical_outlets');
+            if (environment || maxWeight || electricalOutlets) {
                 text += `MILJÖ\n`;
                 text += `-----\n`;
                 
@@ -2199,6 +2216,10 @@
                 
                 if (maxWeight) {
                     text += `• Max totalvikt per objekt: ${maxWeight}\n`;
+                }
+                
+                if (electricalOutlets && electricalOutlets.trim()) {
+                    text += `• Eluttag i vilka objekt: ${electricalOutlets}\n`;
                 }
                 
                 text += `\n`;
